@@ -43,27 +43,32 @@ void Plane::print() {
 	cout << "D: " << plane.w << endl;
 }
 
-Vec3 Plane::intersectPoint(Ray ray) {
+Vec3 Plane::intersectPoint(Ray ray) 
+{
 	Vec3 N(plane.x, plane.y, plane.z);
-
 	float D = plane.w;
-
 	Vec3 V = ray.dir;
 	Vec3 S = ray.start;
-
-	float t = 0;
+	float t;
 	float dot = N.dotV3(V);
 
-	if (dot <= 0) {
-		float distanceD = N.dotV3(S) + D;
-		if (distanceD == 0) { cout << "inside plane\n"; }
-		else { cout << "parallel\n"; }
+	if (abs(dot) <= 0.0001)
+	{
+		//If line lies in the plane
+		float distance = N.dotV3(S) + D;
+
+		if (distance <= 0.00001)
+		{
+			printf("\nLine lies in plane.\n");
+		}
+		else { printf("\nNo intersection\n"); }
+		//No intersection
 	}
 	else {
-		t = -1 * ((D + N.dotV3(S)) / N.dotV3(V));
+		t = -(D + N.dotV3(S)) / (N.dotV3(V));
 		return ray.currentPosition(t);
 	}
-
+	return Vec3(NULL, NULL, NULL);
 }
 
 

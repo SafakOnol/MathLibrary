@@ -2,7 +2,6 @@
 #define QUATERNION_H
 
 #include "Vector.h"
-//#include "VMath.h"
 #include "Mat3.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -47,8 +46,6 @@ public:
 
 	// Rotate a vector using this quaternion
 	Vec3 Rotate(Vec3 vec);
-
-
 
 };
 

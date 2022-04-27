@@ -1,3 +1,4 @@
+
 #include <iostream>
 
 #include "Vector.h"
@@ -6,6 +7,7 @@
 #include "Sphere.h"
 #include "Collider.h"
 #include "AAB.h"
+#include "Quaternion.h"
 
 int main(int argc, char* args[])
 {
@@ -18,8 +20,6 @@ int main(int argc, char* args[])
 
 	Vec3 v(2, 2, 1);
 	Vec3 u(4, 2, 1);
-
-
 
 	cout << "v = (" << v.x << "," << v.y << "," << v.z << ")" << endl;
 	cout << "u = (" << u.x << "," << u.y << "," << u.z << ")" << endl;
@@ -42,7 +42,6 @@ int main(int argc, char* args[])
 
 	Vec3 uCrossV = u.crossV3(v);
 	cout << "Cross product of Vec3 u x Vec3 v = (" << uCrossV.x << "), (" << uCrossV.y << "), (" << uCrossV.z << ")" << endl;
-
 
 	// // // // // // // // // -----------------
 
@@ -86,7 +85,13 @@ int main(int argc, char* args[])
 	cout << "Ray Dir: (" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl;
 	printf("\n");
 
-	/// ??? HOW??
+	Plane plane(2.0f, 1.0f, 0.0f, -4.0f);
+	plane.print();
+	printf("\n");
+
+	Vec3 inter = plane.intersectPoint(ray);
+	cout << "Intersection point: " << "(" << inter.x << "," << inter.y << "," << inter.z << ")" << endl; 
+
 
 	// ASSIGNMENT 2 ENDS -----------//
 
@@ -107,25 +112,71 @@ int main(int argc, char* args[])
 	Vec3 rDir(0.0f, 2.0f, 3.0f);
 	Sphere sphere(Vec3(0.0f, 0.0f, 0.0f), 5.0f);
 	AAB cube(20.0f, 10.0f, 10.0f);
-	Ray RayTest(rStart, rDir);
+	Ray ray2(rStart, rDir);
 
-	if (Collider::RaySphereCollisionDetected(RayTest, sphere) == true)
+	
+
+	if (Collider::RaySphereCollisionDetected(ray2, sphere) == true)
 	{
-		Vec3 rpCol = (Collider::RaySphereCollisionPoint(RayTest, sphere));
-		cout << " RAY - SPHERE \n Value of interection = " << "(" << rpCol.x << "," << rpCol.y << "," << rpCol.z << ")" << endl;
+		Vec3 rpCol = (Collider::RaySphereCollisionPoint(ray2, sphere));
+		cout << "\n RAY - SPHERE COLLISION: " << endl;
+		cout << "Value of intersection: " << "(" << rpCol.x << "," << rpCol.y << "," << rpCol.z << ")" <<endl;
 	}
 	
-	cout << "\n RAY - BOX COLLISION = " << endl;
+	cout << "\n RAY - BOX COLLISION: " << endl;
 
-	Vec3 intersection = Collider::RayAABCollisionPoint(RayTest, cube);
-	cout << " Value of interection = " << "(" << intersection.x << "," << intersection.y << "," << intersection.z << ")" << endl; 
+	Vec3 intersection = Collider::RayAABCollisionPoint(ray2, cube);
+	cout << " Value of intersection: " << "(" << intersection.x << "," << intersection.y << "," << intersection.z << ")" << endl; 
 
 	// ASSIGNMENT 3 ENDS -----------//
 
-}	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// ASSIGNMENT 4 STARTS ---------// 
 
+	cout << "" << endl;
+	cout << "" << endl;
+	cout << "" << endl;
+	cout << "ASSIGNMENT 4 OUTPUT: " << endl;
+	cout << "" << endl;
+	cout << "" << endl;
+
+	Quaternion quat1(1.0f, 2.0f, 2.0f, 3.0f);
+	Quaternion quat2(2.0f, 1.0f, 2.0f, 5.0f);
+
+	cout << "\n q1: " << "(" << quat1.v.x << "," << quat1.v.y << "," << quat1.v.z << "," << quat1.d << ")" << endl;
+	cout << "\n q2: " << "(" << quat2.v.x << "," << quat2.v.y << "," << quat2.v.z << "," << quat2.d << ")" << endl;
+
+	Quaternion result = quat1 * quat2;
+	cout << "\n q1 * q2: " << "(" << result.q.x << "," << result.q.y << "," << result.q.z << "," << result.q.w << ")" << endl;
+
+	Quaternion resultAdd = quat1 + quat2;
+	cout << "\n q1 + q2: " << "(" << resultAdd.q.x << "," << resultAdd.q.y << "," << resultAdd.q.z << "," << resultAdd.q.w << ")" << endl;
+
+	Quaternion resultSub = quat1 - quat2;
+	cout << "\n q1 - q2: " << "(" << resultSub.q.x << "," << resultSub.q.y << "," << resultSub.q.z << "," << resultSub.q.w << ")" << endl;
+
+	cout << "\n q1 conjugate: " << "(" << quat1.Conjugate().v.x << "," << quat1.Conjugate().v.y << "," << quat1.Conjugate().v.z << "," << quat1.Conjugate().d << ")" << endl;
+
+	cout << "\n q1 magnitude: " << quat1.Mag() << endl;
+
+	cout << "\n q1 inverse: " << "(" << quat1.Inverse().v.x << "," << quat1.Inverse().v.y << "," << quat1.Inverse().v.z << "," << quat1.Inverse().d << ")" << endl;
+
+	cout << "\n q1 normalized: " << "(" << quat1.Normalize().v.x << "," << quat1.Normalize().v.y << "," << quat1.Normalize().v.z << "," << quat1.Normalize().d << ")" << endl;
+
+	Quaternion quat3(1.0f, 1.0f, 1.0f, 0.0f);
+	float angle = 90.0f;
+	Vec3 Vec(1.0f, 0.0f, 0.0f);
+	Vec3 rotation = quat3.Rotate(Vec, angle);
+	cout << "\n rotated vector = " << "(" << rotation.x << "," << rotation.y << "," << rotation.z << "," << rotation.z << ")" << endl;
+
+	return 0;
+
+
+
 	// ASSIGNMENT 4 ENDS -----------//
+
+
+}	

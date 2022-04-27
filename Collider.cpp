@@ -1,22 +1,24 @@
 #include "Collider.h"
-//#include <tgmath.h>
 #include <math.h>
 
 using namespace std;
 Vec4 quadVec(0.0f, 0.0f, 0.0f, 0.0f);
 
 bool Collider::RaySphereCollisionDetected(Ray ray_, Sphere sphere_) {
-    printf("Dir - %f, %f, %f\n", ray_.dir.x, ray_.dir.y, ray_.dir.z);
-    printf("Start - %f, %f, %f\n", ray_.start.x, ray_.start.y, ray_.start.z);
+    printf("Ray Start: \n");
+    printf("Start: %f, %f, %f\n", ray_.start.x, ray_.start.y, ray_.start.z);
+    printf("Ray Direction: \n");
+    printf("Dir: %f, %f, %f\n", ray_.dir.x, ray_.dir.y, ray_.dir.z);
 
     Collider::quadraticEquation(ray_, sphere_);
-    printf("x %f, y %f, z %f, w %f\n", quadVec.x, quadVec.y, quadVec.z, quadVec.w);
+    printf("Quadratic Eq: \n");
+    printf("x: %f, y: %f, z: %f, w: %f\n", quadVec.x, quadVec.y, quadVec.z, quadVec.w);
 
     // check if the discriminant (quaVec.w) is negative
     if (quadVec.w < 0.0f)
-        return false;// No collision
+        return false; // no collision
     else
-        return true;// It depends of t :):D
+        return true;
 }
 
 Vec3 Collider::RaySphereCollisionPoint(Ray ray_, Sphere sphere) {
@@ -32,18 +34,18 @@ Vec3 Collider::RaySphereCollisionPoint(Ray ray_, Sphere sphere) {
         return ray_.currentPosition(t);
     }
     else if (t1 < 0 && t2 < 0) {
-        //No collition, the sphere is behind - return null
+        //No collision, the sphere is behind the ray, return null
         return Vec3(0.0f, 0.0f, 0.0f);
     }
     else if (t1 >= 0 && t2 < 0) {
         //we are inside sphere, we have two intersection points , one behind and one at the front . 
-        printf("TWO INTERSECTIONS\n");
+        printf("\n TWO INTERSECTIONS\n");
 
         return ray_.currentPosition(t1);
     }
     else if (t2 >= 0 && t1 < 0) {
         //we are inside sphere, we have two intersection points , one behind and one at the front . 
-        printf("TWO INTERSECTIONS\n");
+        printf("\n TWO INTERSECTIONS\n");
 
         return ray_.currentPosition(t2);
     }

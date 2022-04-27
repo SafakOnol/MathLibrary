@@ -7,24 +7,24 @@
 using namespace std;
 namespace MATH {
 
-//#ifndef VERY_SMALL
-//#define VERY_SMALL 1.0e-7f
-//#endif
-//
-//#ifndef VERY_CLOSE_TO_ONE 
-//#define	VERY_CLOSE_TO_ONE 0.9999f
-//#endif
-//#ifndef M_PI
-//#define M_PI 3.14159265358979323846f
-//#endif
-//
-//#ifndef DEGREES_TO_RADIANS
-//#define DEGREES_TO_RADIANS (M_PI / 180.0f)
-//#endif	
-//
-//#ifndef RADIANS_TO_DEGREES
-//#define RADIANS_TO_DEGREES (180.0f / M_PI)
-//#endif
+#ifndef VERY_SMALL
+#define VERY_SMALL 1.0e-7f
+#endif
+
+#ifndef VERY_CLOSE_TO_ONE 
+#define	VERY_CLOSE_TO_ONE 0.9999f
+#endif
+#ifndef M_PI
+#define M_PI 3.14159265358979323846f
+#endif
+
+#ifndef DEGREES_TO_RADIANS
+#define DEGREES_TO_RADIANS (M_PI / 180.0f)
+#endif	
+
+#ifndef RADIANS_TO_DEGREES
+#define RADIANS_TO_DEGREES (180.0f / M_PI)
+#endif
 
 
 	struct Vec3 {
@@ -70,16 +70,16 @@ namespace MATH {
 		//* #2
 		inline friend Vec3 operator * (const float s, const Vec3& v) { return v * s; }
 
-//		inline const Vec3 operator / (const float s) const {
-//#ifdef _DEBUG  
-//			if (fabs(s) < VERY_SMALL) {
-//				string errorMsg = __FILE__ + __LINE__;
-//				throw errorMsg.append(": Divide by nearly zero! ");
-//			}
-//#endif
-//			float r = 1.0f / s;
-//			return *this * r;
-//		}
+		inline const Vec3 operator / (const float s) const {
+#ifdef _DEBUG  
+			if (fabs(s) < VERY_SMALL) {
+				string errorMsg = __FILE__ + __LINE__;
+				throw errorMsg.append(": Divide by nearly zero! ");
+			}
+#endif
+			float r = 1.0f / s;
+			return *this * r;
+		}
 
 		//+=
 		Vec3& operator += (const Vec3& v);
@@ -163,29 +163,29 @@ namespace MATH {
 		//friend Vec4 operator * (const float s, const Vec4& v);
 
 
-//		inline Vec4 operator / (const float s) const {
-//#ifdef DEBUG  /// If in debug mode let's worry about divide by zero or nearly zero!!! 
-//			if (std::fabs(s) < VERY_SMALL) {
-//				std::string errorMsg = __FILE__ + __LINE__;
-//				throw errorMsg.append(": Divide by nearly zero! ");
-//			}
-//#endif
-//			float r = 1.0f / s;
-//			return *this * r;
-//		}
+		inline Vec4 operator / (const float s) const {
+#ifdef DEBUG  /// If in debug mode let's worry about divide by zero or nearly zero!!! 
+			if (std::fabs(s) < VERY_SMALL) {
+				std::string errorMsg = __FILE__ + __LINE__;
+				throw errorMsg.append(": Divide by nearly zero! ");
+			}
+#endif
+			float r = 1.0f / s;
+			return *this * r;
+		}
 
-//		inline Vec4& operator /= (const float s) {
-//#ifdef _DEBUG  /// If in debug mode let's worry about divide by zero or nearly zero!!! 
-//			if (std::fabs(s) < VERY_SMALL) {
-//				std::string errorMsg = __FILE__ + __LINE__;
-//				throw errorMsg.append(": Divide by nearly zero! ");
-//			}
-//#endif //DEBUG
-//
-//			float r = 1.0f / s;
-//			*this *= r;
-//			return *this;
-//		}
+		inline Vec4& operator /= (const float s) {
+#ifdef _DEBUG  /// If in debug mode let's worry about divide by zero or nearly zero!!! 
+			if (std::fabs(s) < VERY_SMALL) {
+				std::string errorMsg = __FILE__ + __LINE__;
+				throw errorMsg.append(": Divide by nearly zero! ");
+			}
+#endif //DEBUG
+
+			float r = 1.0f / s;
+			*this *= r;
+			return *this;
+		}
 
 		inline void print(const char* comment = nullptr) {
 			if (comment) printf("%s\n", comment);

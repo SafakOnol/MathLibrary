@@ -114,8 +114,6 @@ float Vec4::dotV4(Vec4 otherVec) {
 }
 
 
-
-
 Vec4 Vec4::normalizeV4() {
 
 	Vec4 n4;

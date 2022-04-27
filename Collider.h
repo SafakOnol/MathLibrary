@@ -3,7 +3,7 @@
 #include "Ray.h"
 #include "AAB.h"
 #include "Vector.h"
-#include "VMath.h"
+
 
 class Collider
 {

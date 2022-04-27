@@ -50,10 +50,10 @@ Quaternion Quaternion::operator * (const Quaternion& otherQuat) {
 
 Vec3 Quaternion::Rotate(Vec3 axis, float angleInDegrees) {
 	float radians = angleInDegrees;
-	//Vec3 axisNormalized = VMath::normalize(axis);
-	//d = cos(radians / 2);
-	//Vec3 imaginary = axisNormalized * (sin(radians / 2));
-	//return (imaginary);
+	Vec3 axisNormalized = axis.normalizeV3();
+	d = cos(radians / 2);
+	Vec3 imaginary = axisNormalized * (sin(radians / 2));
+	return (imaginary);
 
 	Quaternion result((axis.x * sin(0.5f * radians)), (axis.y * sin(0.5f * radians)), (axis.z * sin(0.5f * radians)), (cos(0.5f * radians)));
 	return Vec3((axis.x * sin(0.5f * radians)), (axis.y * sin(0.5f * radians)), (axis.z * sin(0.5f * radians)));
